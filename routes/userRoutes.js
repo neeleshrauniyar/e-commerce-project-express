@@ -3,7 +3,7 @@ const router = express.Router();
 const userModel = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt= require('jsonwebtoken')
-const generateToken= require('../middlewares/generateToken')
+const generateToken= require('../utils/generateToken')
 require('dotenv').config()
 
 if (process.env.NODE_ENV === "development") {
