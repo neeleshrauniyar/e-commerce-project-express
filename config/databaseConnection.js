@@ -1,11 +1,12 @@
 const mongoose = require('mongoose');
+const debug= require('debug')('developmnet:databaseConnection');
 
 mongoose.connect("mongodb://localhost:27017/ecommerce")
     .then(() => {
-        console.log("database connected")
+        debug("database connected")
     })
     .catch((err) => {
-        console.log(err)
+        debug(err)
     })
 
 module.exports = mongoose.connection

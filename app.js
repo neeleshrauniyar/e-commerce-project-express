@@ -1,6 +1,8 @@
 const express = require("express")
 const app = express()
 
+const debug= require('debug')('developmnet:app')
+
 const db= require('./config/databaseConnection')
 
 const sellerRouter= require('./routes/sellerRoutes')
@@ -21,7 +23,7 @@ app.use("/products", productRouter)
 app.use("/sellers", sellerRouter)
 
 app.listen(8000, () => {
-    console.log("server started")
+    debug("server started")
 })
 
 
