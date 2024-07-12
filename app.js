@@ -3,6 +3,10 @@ const app = express()
 
 const db= require('./config/databaseConnection')
 
+const sellerRouter= require('./routes/sellerRoutes')
+const userRouter= require('./routes/userRoutes')
+const productRouter= require('./routes/productRoutes')
+
 const cookieParser= require('cookie-parser')
 const path= require('path')
 
@@ -12,9 +16,9 @@ const path= require('path')
 // app.use(express.static(path.join(__dirname, 'public')))
 // app.set("view engine", "ejs")
 
-app.get("/", (req, res) => {
-    res.send("hello")
-})
+app.use("/users", userRouter)
+app.use("/products", productRouter)
+app.use("/sellers", sellerRouter)
 
 app.listen(8000, () => {
     console.log("server started")
