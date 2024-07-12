@@ -14,5 +14,7 @@
     export NODE_ENV=development
     export NODE_ENV=development
     console.log(process.env.NODE_ENV)
+8. create seller, check if the email exists, and hash the password with bcrypt
+
 
 

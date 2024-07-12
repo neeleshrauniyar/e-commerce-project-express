@@ -1,5 +1,4 @@
 const mongoose= require('mongoose');
-const { type } = require('wd/lib/commands');
 
 const userSchema = new mongoose.Schema({
     fullname: {
