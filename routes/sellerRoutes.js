@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const sellerModel = require('../models/sellerModel')
+const bcrypt = require('bcrypt')
 
 if (process.env.NODE_ENV === "development") {
     router.post("/create", async (req, res) => {
@@ -10,12 +11,15 @@ if (process.env.NODE_ENV === "development") {
         if (seller) {
             return res.send("Seller wth the same email already exists")
         }
-        let newSeller = await sellerModel.create({
-            fullname,
-            email,
-            password
+        const salt = 10
+        bcrypt.hash(password, salt, async (err, hash) => {
+            let newSeller = await sellerModel.create({
+                fullname,
+                email,
+                password: hash
+            })
+            return res.json({"msg": "new seller created", newSeller})
         })
-        return res.json(newSeller)
     })
 }
 
