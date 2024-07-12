@@ -1,7 +1,12 @@
 const mongoose= require('mongoose');
+const { type } = require('wd/lib/commands');
 
 const userSchema = new mongoose.Schema({
-    fullname: String,
+    fullname: {
+        type: String,
+        minlength: 3,
+        trim: true
+    },
     email: String,
     password: String,
     cart:{
