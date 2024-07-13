@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const sellerModel = require('../models/sellerModel')
 const bcrypt = require('bcrypt')
-const auth= require('../middlewares/authMiddleware')
-const generateToken= require('../utils/generateToken')
+const auth = require('../middlewares/authMiddleware')
+const generateToken = require('../utils/generateToken');
+const upload = require('../middlewares/multerMiddleware');
 require('dotenv').config()
 
 if (process.env.NODE_ENV === "development") {
@@ -35,7 +36,7 @@ if (process.env.NODE_ENV === "development") {
         }
         bcrypt.compare(password, seller.password, (err, result) => {
             if (result) {
-                let jwtToken= generateToken(seller)
+                let jwtToken = generateToken(seller)
                 res.cookie("token", jwtToken)
                 return res.render("admin")
             }
@@ -48,11 +49,10 @@ if (process.env.NODE_ENV === "development") {
         res.clearCookie("token")
         req.flash("error", "Seller logged out")
         return res.redirect("/")
-        //return res.send("Seller logged out")
     })
 
-    router.get("/createproducts", auth, async (req, res) => {
-        res.render("admin")
+    router.get("/admin", auth, async (req, res) => {
+        await res.render("admin")
     })
 }
 
