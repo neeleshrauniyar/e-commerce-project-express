@@ -40,6 +40,11 @@ if (process.env.NODE_ENV === "development") {
         })
     })
 
+    router.get("/logout", (req, res) => {
+        res.clearCookie("token")
+        return res.send("User logged out")
+    })
+
 }
 
 module.exports = router

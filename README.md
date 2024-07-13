@@ -15,6 +15,8 @@
     export NODE_ENV=development
     console.log(process.env.NODE_ENV)
 8. create seller, check if the email exists, and hash the password with bcrypt
-
+9. create jwt token, generate token function, verify jwt token for login middleware
+10. added views html files in the views directory
+11. 
 
 

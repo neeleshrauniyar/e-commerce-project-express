@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const sellerModel = require('../models/sellerModel')
 const bcrypt = require('bcrypt')
+const auth= require('../middlewares/authMiddleware')
+const generateToken= require('../utils/generateToken')
+require('dotenv').config()
 
 if (process.env.NODE_ENV === "development") {
     router.post("/create", async (req, res) => {
@@ -18,8 +21,38 @@ if (process.env.NODE_ENV === "development") {
                 email,
                 password: hash
             })
-            return res.json({"msg": "new seller created", newSeller})
+            req.flash("error", "Seller created, Please login with the credentials")
+            return res.redirect("/")
         })
+    })
+
+    router.post("/login", async (req, res) => {
+        let { email, password } = req.body
+        let seller = await sellerModel.findOne({ email: email })
+        if (!seller) {
+            req.flash("error", "Seller not registered with this email")
+            return res.redirect("/")
+        }
+        bcrypt.compare(password, seller.password, (err, result) => {
+            if (result) {
+                let jwtToken= generateToken(seller)
+                res.cookie("token", jwtToken)
+                return res.render("admin")
+            }
+            req.flash("error", "Incorrect Password")
+            return res.redirect("/")
+        })
+    })
+
+    router.get("/logout", (req, res) => {
+        res.clearCookie("token")
+        req.flash("error", "Seller logged out")
+        return res.redirect("/")
+        //return res.send("Seller logged out")
+    })
+
+    router.get("/createproducts", auth, async (req, res) => {
+        res.render("admin")
     })
 }
 
